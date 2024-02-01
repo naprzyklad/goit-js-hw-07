@@ -5,29 +5,26 @@ console.log(galleryItems);
 
 const gallery = document.querySelector(".gallery");
 
-galleryItems.forEach((image) => {
-  const { preview, original, description } = image;
+const galleryItem = galleryItems
+  .map(
+    (item) =>
+      `<div class="gallery__item">
+  <a class="gallery__link" href="${item.original}">
+    <img
+      class="gallery__image"
+      src="${item.preview}"
+      data-source="${item.original}"
+      alt="${item.description}"
+    />
+  </a>
+</div>`
+  )
+  .join("");
 
-  const li = document.createElement("li");
-  li.classList.add("gallery_item");
-  gallery.appendChild(li);
+gallery.innerHTML = galleryItem;
 
-  const a = document.createElement("a");
-  a.classList.add("gallery_link");
-  a.href = original;
-  li.appendChild(a);
-
-  const img = document.createElement("img");
-  img.classList.add("gallery_image");
-  img.src = preview;
-  img.alt = description;
-  a.appendChild(img);
-});
-
-document.addEventListener("DOMContentLoaded", () => {
-  new SimpleLightbox(".gallery a", {
-    captionsData: "alt",
-    captionPosition: "outside",
-    captionDelay: 250,
-  });
+const simple = new SimpleLightbox(".gallery a", {
+  captionsData: "alt",
+  captionPosition: "outside",
+  captionDelay: 250,
 });
